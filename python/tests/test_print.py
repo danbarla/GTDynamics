@@ -19,16 +19,16 @@ import gtsam
 class Print(unittest.TestCase):
     def test_values(self):
         """Checks that printing Values uses the GTDKeyFormatter instead of gtsam's default"""
-        v = gtd.Values()
+        v = gtsam.Values()
         gtd.InsertJointAngleDouble(v, 0, 1, 2)
-        self.assertTrue('q(0)1' in v.__repr__())
+        self.assertIn('q(0)1', v.__repr__("values: ", gtd.GTDKeyFormatter))
 
     def test_nonlinear_factor_graph(self):
         """Checks that printing NonlinearFactorGraph uses the GTDKeyFormatter"""
-        fg = gtd.NonlinearFactorGraph()
+        fg = gtsam.NonlinearFactorGraph()
         fg.push_back(gtd.MinTorqueFactor(gtd.internal.TorqueKey(0, 0).key(),
                                          gtsam.noiseModel.Unit.Create(1)))
-        self.assertTrue('T(0)0' in fg.__repr__())
+        self.assertIn('T(0)0', fg.__repr__("nfg: ", gtd.GTDKeyFormatter))
 
     def test_key_formatter(self):
         """Tests print_ method with various key formatters"""
@@ -36,23 +36,23 @@ class Print(unittest.TestCase):
         factor = gtd.MinTorqueFactor(torqueKey, gtsam.noiseModel.Unit.Create(1))
         # test GTDKeyFormatter
         with patch('sys.stdout', new = StringIO()) as fake_out:
-            factor.print_('factor: ', gtd.GetKeyFormatter())
-            self.assertTrue('factor: min torque factor' in fake_out.getvalue())
-            self.assertTrue('keys = { T(0)0 }' in fake_out.getvalue())
+            factor.print_('factor: ', gtd.GTDKeyFormatter)
+            self.assertIn('factor: min torque factor', fake_out.getvalue())
+            self.assertIn('keys = { T(0)0 }', fake_out.getvalue())
         # test functional
         def myKeyFormatter(key):
             return 'this is my key formatter {}'.format(key)
         with patch('sys.stdout', new = StringIO()) as fake_out:
             factor.print_('factor: ', myKeyFormatter)
-            self.assertTrue('factor: min torque factor' in fake_out.getvalue())
-            self.assertTrue(
-                'keys = {{ this is my key formatter {} }}'.format(torqueKey) in fake_out.getvalue())
+            self.assertIn('factor: min torque factor', fake_out.getvalue())
+            self.assertIn(
+                'keys = {{ this is my key formatter {} }}'.format(torqueKey), fake_out.getvalue())
         # test lambda
         with patch('sys.stdout', new = StringIO()) as fake_out:
             factor.print_('factor: ', lambda key: 'lambda formatter {}'.format(key))
-            self.assertTrue('factor: min torque factor' in fake_out.getvalue())
-            self.assertTrue(
-                'keys = {{ lambda formatter {} }}'.format(torqueKey) in fake_out.getvalue())
+            self.assertIn('factor: min torque factor', fake_out.getvalue())
+            self.assertIn(
+                'keys = {{ lambda formatter {} }}'.format(torqueKey), fake_out.getvalue())
 
 if __name__ == "__main__":
     unittest.main()
