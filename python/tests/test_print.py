@@ -34,10 +34,12 @@ class Print(unittest.TestCase):
         """Tests print_ method with various key formatters"""
         torqueKey = gtd.internal.TorqueKey(0, 0).key()
         factor = gtd.MinTorqueFactor(torqueKey, gtsam.noiseModel.Unit.Create(1))
+        # test GTDKeyFormatter
         with patch('sys.stdout', new = StringIO()) as fake_out:
             factor.print_('factor: ', gtd.GetKeyFormatter())
             self.assertTrue('factor: min torque factor' in fake_out.getvalue())
             self.assertTrue('keys = { T(0)0 }' in fake_out.getvalue())
+        # test functional
         def myKeyFormatter(key):
             return 'this is my key formatter {}'.format(key)
         with patch('sys.stdout', new = StringIO()) as fake_out:
@@ -45,6 +47,12 @@ class Print(unittest.TestCase):
             self.assertTrue('factor: min torque factor' in fake_out.getvalue())
             self.assertTrue(
                 'keys = {{ this is my key formatter {} }}'.format(torqueKey) in fake_out.getvalue())
+        # test lambda
+        with patch('sys.stdout', new = StringIO()) as fake_out:
+            factor.print_('factor: ', lambda key: 'lambda formatter {}'.format(key))
+            self.assertTrue('factor: min torque factor' in fake_out.getvalue())
+            self.assertTrue(
+                'keys = {{ lambda formatter {} }}'.format(torqueKey) in fake_out.getvalue())
 
 if __name__ == "__main__":
     unittest.main()

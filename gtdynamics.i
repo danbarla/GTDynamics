@@ -509,12 +509,7 @@ gtdynamics::DynamicsSymbol ContactWrenchKey(int i, int k, int t);
 gtdynamics::DynamicsSymbol PhaseKey(int k);
 gtdynamics::DynamicsSymbol TimeKey(int t);
 
-#include <gtdynamics/utils/DynamicsSymbol-wrap.h>
-gtdynamics::StdKeyFormatter KeyFormatter();
-string str(const gtsam::Values &t);
-string str(const gtsam::Values &t, const string &s);
-string str(const gtsam::NonlinearFactorGraph &t);
-string str(const gtsam::NonlinearFactorGraph &t, const string &s);
+gtdynamics::StdKeyFormatter GTDKeyFormatter;
 
 ///////////////////// Key Methods /////////////////////
 template<T = {double}>
