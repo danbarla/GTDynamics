@@ -53,7 +53,8 @@ jobs:
       - name: Dependencies
         run: |
           brew tap osrf/simulation
-          brew install sdformat9
+          brew install ignition-math6
+          brew install sdformat8
       - name: Configure
         run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON ..
         working-directory: ./build
