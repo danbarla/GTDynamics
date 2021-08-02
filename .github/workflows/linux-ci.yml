@@ -42,6 +42,8 @@ jobs:
         run: |
           brew tap osrf/simulation
           brew install sdformat8
+      - name: Setup compiler
+        run: |
           if [ "${{ matrix.compiler }}" = "gcc" ]; then
             brew install gcc@${{ matrix.version }}
             echo "CC=gcc-${{ matrix.version }}" >> $GITHUB_ENV
