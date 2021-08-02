@@ -54,13 +54,13 @@ jobs:
         run: |
           brew tap osrf/simulation
           brew install ignition-math6
-          brew install sdformat8
-      - name: Configure
-        run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON ..
-        working-directory: ./build
-      - name: Build
-        run: make -j4
-        working-directory: ./build
-      - name: Test
-        run: make -j4 check
-        working-directory: ./build
+      #     brew install sdformat8
+      # - name: Configure
+      #   run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON ..
+      #   working-directory: ./build
+      # - name: Build
+      #   run: make -j4
+      #   working-directory: ./build
+      # - name: Test
+      #   run: make -j4 check
+      #   working-directory: ./build
