@@ -32,10 +32,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: Dependencies
+      - name: Setup compiler
         run: |
-          brew tap osrf/simulation
-          brew install sdformat8
           if [ "${{ matrix.compiler }}" = "gcc" ]; then
             brew install gcc@${{ matrix.version }}
             echo "CC=gcc-${{ matrix.version }}" >> $GITHUB_ENV
@@ -45,6 +43,10 @@ jobs:
             echo "CC=clang" >> $GITHUB_ENV
             echo "CXX=clang++" >> $GITHUB_ENV
           fi
+      - name: Dependencies
+        run: |
+          brew tap osrf/simulation
+          brew install sdformat8
       - name: Configure
         run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON ..
         working-directory: ./build
