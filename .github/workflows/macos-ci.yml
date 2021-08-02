@@ -30,7 +30,7 @@ jobs:
             version: "11.3.1"
 
     steps:
-      - name: Setup compiler
+      - name: Setup Compiler
         run: |
           if [ "${{ matrix.compiler }}" = "gcc" ]; then
             brew install gcc@${{ matrix.version }}
@@ -50,18 +50,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Print
-        run: ls -al
-        working-directory: ./build
+      - name: Build Directory
+        run: mkdir ./build
 
       - name: Configure
         run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON ..
         working-directory: ./build
 
-      # - name: Build
-      #   run: make -j4
-      #   working-directory: ./build
+      - name: Build
+        run: make -j4
+        working-directory: ./build
 
-      # - name: Test
-      #   run: make -j4 check
-      #   working-directory: ./build
+      - name: Test
+        run: make -j4 check
+        working-directory: ./build
