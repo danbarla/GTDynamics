@@ -50,24 +50,16 @@ jobs:
             echo "CC=clang" >> $GITHUB_ENV
             echo "CXX=clang++" >> $GITHUB_ENV
           fi
-      - name: Dependencies
-        run: |
-          sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
-          wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
-
-          sudo apt-get -y update
-          sudo apt-get -y install ruby-dev build-essential libtinyxml-dev libboost-all-dev cmake mercurial pkg-config
-          sudo apt-get -y install libignition-math6-dev
-      - name: Install SDFormat
-        run: |
-          brew tap osrf/simulation
-          brew install sdformat8
-      - name: Configure
-        run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON ..
-        working-directory: ./build
-      - name: Build
-        run: make -j4
-        working-directory: ./build
-      - name: Test
-        run: make -j4 check
-        working-directory: ./build
+      # - name: Dependencies
+      #   run: |
+      #     brew tap osrf/simulation
+      #     brew install sdformat8
+      # - name: Configure
+      #   run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON ..
+      #   working-directory: ./build
+      # - name: Build
+      #   run: make -j4
+      #   working-directory: ./build
+      # - name: Test
+      #   run: make -j4 check
+      #   working-directory: ./build

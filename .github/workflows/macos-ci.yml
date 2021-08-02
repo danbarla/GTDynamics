@@ -30,8 +30,6 @@ jobs:
             version: "11.3.1"
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@master
       - name: Setup compiler
         run: |
           if [ "${{ matrix.compiler }}" = "gcc" ]; then
@@ -43,16 +41,23 @@ jobs:
             echo "CC=clang" >> $GITHUB_ENV
             echo "CXX=clang++" >> $GITHUB_ENV
           fi
+
       - name: Dependencies
         run: |
           brew tap osrf/simulation
           brew install sdformat8
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Configure
         run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON ..
-        working-directory: ./build
-      - name: Build
-        run: make -j4
-        working-directory: ./build
-      - name: Test
-        run: make -j4 check
-        working-directory: ./build
+        # working-directory: ./build
+
+      # - name: Build
+      #   run: make -j4
+      #   working-directory: ./build
+
+      # - name: Test
+      #   run: make -j4 check
+      #   working-directory: ./build
