@@ -47,9 +47,14 @@ jobs:
           brew tap osrf/simulation
           brew install sdformat8
 
-          # GTSAM
-          sudo add-apt-repository ppa:borglab/gtsam-develop
-          sudo apt-get update
+      - name: GTSAM
+        run: |
+          git clone https://github.com/borglab/gtsam.git
+          cd gtsam
+          mkdir build && cd build
+          cmake -D GTSAM_BUILD_EXAMPLES_ALWAYS=OFF ..
+          make -j4 install
+          cd
 
       - name: Checkout
         uses: actions/checkout@v2
