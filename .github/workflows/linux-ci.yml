@@ -44,15 +44,9 @@ jobs:
             brew install gcc@${{ matrix.version }}
             echo "CC=gcc-${{ matrix.version }}" >> $GITHUB_ENV
             echo "CXX=g++-${{ matrix.version }}" >> $GITHUB_ENV
-          else
-            # 15CF4D18AF4F7421 is the GPG key for the LLVM apt repository
-            # This key is not in the keystore by default for Ubuntu so we need to add it.
-            LLVM_KEY=15CF4D18AF4F7421
-            gpg --keyserver keyserver.ubuntu.com --recv-key $LLVM_KEY || gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-key $LLVM_KEY
-            gpg -a --export $LLVM_KEY | sudo apt-key add -
-            sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main"
-            sudo apt-get -y update
 
+          else
+            brew install --with-toolchain llvm@{{ matrix.version }}
             echo "CC=clang" >> $GITHUB_ENV
             echo "CXX=clang++" >> $GITHUB_ENV
           fi
