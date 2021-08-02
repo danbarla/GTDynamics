@@ -47,6 +47,10 @@ jobs:
           brew tap osrf/simulation
           brew install sdformat8
 
+          # GTSAM
+          sudo add-apt-repository ppa:borglab/gtsam-develop
+          sudo apt-get update
+
       - name: Checkout
         uses: actions/checkout@v2
 
