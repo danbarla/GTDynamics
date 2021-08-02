@@ -46,7 +46,7 @@ jobs:
             echo "CXX=g++-${{ matrix.version }}" >> $GITHUB_ENV
 
           else
-            brew install llvm@${{ matrix.version }}
+            brew install --build-from-source llvm@${{ matrix.version }}
             echo "CC=clang" >> $GITHUB_ENV
             echo "CXX=clang++" >> $GITHUB_ENV
           fi
