@@ -17,10 +17,7 @@ jobs:
       matrix:
         # Github Actions requires a single row to be added to the build matrix.
         # See https://help.github.com/en/articles/workflow-syntax-for-github-actions.
-        name: [
-          ubuntu-18.04-gcc-9,
-          ubuntu-18.04-clang-9,
-        ]
+        name: [ubuntu-18.04-gcc-9, ubuntu-18.04-clang-9]
 
         build_type: [Debug, Release]
         build_unstable: [ON]
@@ -36,9 +33,7 @@ jobs:
             version: "9"
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Setup compiler
+      - name: Setup Compiler
         run: |
           if [ "${{ matrix.compiler }}" = "gcc" ]; then
             sudo apt-get install -y g++-${{ matrix.version }} g++-${{ matrix.version }}-multilib
@@ -50,16 +45,30 @@ jobs:
             echo "CC=clang" >> $GITHUB_ENV
             echo "CXX=clang++" >> $GITHUB_ENV
           fi
-      # - name: Dependencies
-      #   run: |
-      #     brew tap osrf/simulation
-      #     brew install sdformat8
-      # - name: Configure
-      #   run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON ..
-      #   working-directory: ./build
-      # - name: Build
-      #   run: make -j4
-      #   working-directory: ./build
-      # - name: Test
-      #   run: make -j4 check
-      #   working-directory: ./build
+
+      - name: Dependencies
+        run: |
+          brew tap osrf/simulation
+          brew install sdformat8
+
+          # GTSAM
+          sudo add-apt-repository ppa:borglab/gtsam-develop
+          sudo apt-get update
+
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Build Directory
+        run: mkdir GTDynamics/build && cd GTDynamics/build
+
+      - name: Configure
+        run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON ..
+        working-directory: ./build
+
+      - name: Build
+        run: make -j4
+        working-directory: ./build
+
+      - name: Test
+        run: make -j4 check
+        working-directory: ./build
