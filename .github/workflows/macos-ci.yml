@@ -50,8 +50,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Print
+        run: ls -al
       - name: Configure
-        run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON ..
+        run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON .
         # working-directory: ./build
 
       # - name: Build
