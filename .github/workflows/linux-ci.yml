@@ -55,6 +55,7 @@ jobs:
           apt-get install ruby-dev build-essential libtinyxml-dev libboost-all-dev cmake mercurial pkg-config
           apt-get install libignition-math4-dev
       - name: Install SDFormat
+        run: |
           brew tap osrf/simulation
           brew install sdformat8
       # - name: Configure
