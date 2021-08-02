@@ -52,9 +52,11 @@ jobs:
 
       - name: Print
         run: ls -al
+        working-directory: ./build
+
       - name: Configure
-        run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON .
-        # working-directory: ./build
+        run: cmake -DGTDYNAMICS_BUILD_PYTHON=OFF -DGTDYNAMICS_BUILD_CABLE_ROBOT=ON ..
+        working-directory: ./build
 
       # - name: Build
       #   run: make -j4
